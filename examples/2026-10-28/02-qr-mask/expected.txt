@@ -1,0 +1,13 @@
+$ python qr_demo.py
+original: matches_original=True
+  decoded='https://example.com/demo'
+center_7x7: matches_original=True
+  decoded='https://example.com/demo'
+fully_removed: matches_original=False
+  decoded=''
+
+$ python sweep.py
+L  0:OK  3:OK  7:FAIL  11:FAIL  15:FAIL
+M  0:OK  3:OK  7:OK  11:FAIL  15:FAIL
+Q  0:OK  3:OK  7:OK  11:FAIL  15:FAIL
+H  0:OK  3:OK  7:OK  11:OK  15:FAIL

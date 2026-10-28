@@ -1,0 +1,8 @@
+[
+  {"name":"valid","raw":"{\"category\":\"bug\",\"summary\":\"登录页出现500错误\"}"},
+  {"name":"unknown_label","raw":"{\"category\":\"urgent\",\"summary\":\"请尽快处理\"}"},
+  {"name":"empty_summary","raw":"{\"category\":\"question\",\"summary\":\"  \"}"},
+  {"name":"wrong_type","raw":"{\"category\":[],\"summary\":\"测试\"}"},
+  {"name":"extra_field","raw":"{\"category\":\"feature\",\"summary\":\"增加暗色模式\",\"run\":true}"},
+  {"name":"semantically_wrong","raw":"{\"category\":\"feature\",\"summary\":\"登录页出现500错误\"}"}
+]

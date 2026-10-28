@@ -1,0 +1,7 @@
+$ python check_output.py
+valid: 接受 category=bug
+unknown_label: 拒绝 category超出约定范围
+empty_summary: 拒绝 summary必须是1到80字符的文本
+wrong_type: 拒绝 category超出约定范围
+extra_field: 拒绝 字段必须是category和summary
+semantically_wrong: 接受 category=feature
