@@ -1,0 +1,5 @@
+article: https://example.com/articles/demo?page=2#part
+encoding: https://example.com/articles/demo?q=a%20b&tag=one&tag=two&empty=
+unknown: https://example.com/articles/demo?a=UNKNOWN
+signed: https://example.com/articles/demo?token=FAKE&utm_source=chat
+other_host: https://x.com/example/status/123?a=UNKNOWN

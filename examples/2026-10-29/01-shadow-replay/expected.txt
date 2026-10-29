@@ -1,0 +1,8 @@
+candidate:
+missing: SAME old=20 new=20
+positive: SAME old=10 new=10
+zero: DIFF old=0 new=20
+fixed:
+missing: SAME old=20 new=20
+positive: SAME old=10 new=10
+zero: SAME old=0 new=0
