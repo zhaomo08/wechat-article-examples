@@ -1,0 +1,6 @@
+checkpoint_shards=54
+checkpoint_bytes=1060554587912
+checkpoint_TB_decimal=1.061
+checkpoint_TiB=0.965
+weights_downloaded=false
+model_inference_run=false

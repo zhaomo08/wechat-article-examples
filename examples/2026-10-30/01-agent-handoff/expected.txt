@@ -1,0 +1,4 @@
+patches=1
+app_output=hello from patch
+source_matches_target=true
+target_worktree_clean=true
