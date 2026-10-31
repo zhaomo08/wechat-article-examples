@@ -1,0 +1,4 @@
+input_kind=handwritten_demo_tokens
+model_inference_run=false
+merged_header_colspan_2=true
+<table><tr><td colspan="2">费用</td></tr><tr><td>项目</td><td>金额</td></tr><tr><td>纸张</td><td>12.00</td></tr></table>

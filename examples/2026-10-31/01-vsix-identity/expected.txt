@@ -1,0 +1,5 @@
+a_identity=demo.helper@1.0.0
+b_identity=demo.helper@1.0.0
+same_identity=true
+same_sha256=false
+extension_code_executed=false
