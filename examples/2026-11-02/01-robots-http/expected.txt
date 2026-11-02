@@ -1,0 +1,7 @@
+robots_status=200
+training_policy_declared=True
+public_article_status=200
+public_article_body=Public demo article
+private_status_without_auth=401
+missing_path_status=404
+external_requests=0

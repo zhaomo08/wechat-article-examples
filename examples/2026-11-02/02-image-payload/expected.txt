@@ -1,0 +1,9 @@
+sample=synthetic_64x32_png
+png_bytes=135
+base64_ascii_bytes=180
+openai_json_bytes=400
+anthropic_json_bytes=417
+openai_blocks=text,image_url
+anthropic_blocks=text,image
+decoded_images_equal=true
+remote_requests=0
