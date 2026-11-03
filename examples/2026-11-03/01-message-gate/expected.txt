@@ -1,0 +1,7 @@
+browser=Google Chrome
+real_iframe_messages=4
+accepted=1
+rejected_origin=1
+rejected_source=1
+rejected_schema=1
+external_requests=0

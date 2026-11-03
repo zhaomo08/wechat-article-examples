@@ -1,0 +1,8 @@
+plan_only=FAIL(missing_file)
+draft=FAIL(not_completed)
+wrong_quantity=FAIL(content_mismatch)
+wrong_task=FAIL(task_mismatch)
+verified=PASS
+input=handwritten_lists_and_reports
+model_calls=0
+external_actions=0

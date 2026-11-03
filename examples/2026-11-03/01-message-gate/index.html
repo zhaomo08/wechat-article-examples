@@ -1,0 +1,43 @@
+<!doctype html><html lang="zh"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>跨窗口消息的四个用例</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#f4f1f6;color:#2f2938;font-family:'PingFang SC',sans-serif}main{max-width:540px;margin:auto;padding:28px}h1{font-size:22px;line-height:1.4;margin:0 0 12px}p{font-size:14px;line-height:1.7;color:#63596d}iframe{display:block;width:100%;height:52px;border:1px solid #cec4d6;border-radius:8px;background:white;margin:10px 0}button{padding:10px 12px;background:white;color:#42314d;border:1px solid #9a8ba4;border-radius:7px;cursor:pointer;font:14px 'PingFang SC',sans-serif;margin:4px 0}#summary{padding:16px;background:#e2e9df;border-radius:8px;font-size:18px}ul{padding:0;list-style:none}li{padding:12px 0;border-bottom:1px solid #d6cddd;font-size:15px;line-height:1.6}.pass{color:#355e36}.reject{color:#9a3939}footer{font-size:13px;line-height:1.7;margin-top:24px;border-top:1px solid #cbbfd3;padding-top:16px}</style>
+<main><h1>跨窗口消息：四个真实浏览器用例</h1><p>本机两个端口、三个发送窗口。只显示普通文字，不接收HTML或执行命令。</p>
+<iframe id="authorized" title="授权窗口"></iframe><iframe id="otherWindow" title="同源其他窗口"></iframe><iframe id="otherOrigin" title="不同端口窗口"></iframe>
+<div><button data-case="valid">1. 授权窗口 · 合法字段</button><br><button data-case="origin">2. 其他来源 · 不同端口</button><br><button data-case="source">3. 同源其他窗口</button><br><button data-case="schema">4. 授权窗口 · 字段错误</button></div>
+<p id="summary">等待测试</p><ul id="results"></ul><footer>自造页面的实际浏览器测试，不是ChatGPT漏洞复现。<br>仅连接本机HTTP，无账号、模型调用或真实数据。</footer></main>
+<script>
+const authorized = document.querySelector('#authorized');
+const otherWindow = document.querySelector('#otherWindow');
+const otherOrigin = document.querySelector('#otherOrigin');
+const trustedOrigin = location.origin;
+const cross = new URL(new URLSearchParams(location.search).get('cross') || location.origin);
+if(cross.protocol!=='http:' || cross.hostname!=='127.0.0.1')throw Error('仅允许本机演示');
+window.report = []; window.loadedSenders = 0;
+for(const [frame,base,name] of [[authorized,trustedOrigin,'授权窗口'],[otherWindow,trustedOrigin,'同源其他窗口'],[otherOrigin,cross.origin,'不同端口窗口']]){
+ frame.addEventListener('load',()=>window.loadedSenders++);
+ frame.src=base+'/sender.html?name='+encodeURIComponent(name);
+}
+function record(verdict){
+ window.report.push(verdict);
+ const labels={accepted:'通过：来源、窗口与字段正确',origin:'拒绝：来源不同',source:'拒绝：并非授权窗口',schema:'拒绝：消息字段不符合约定'};
+ const li=document.createElement('li');li.className=verdict==='accepted'?'pass':'reject';li.textContent=labels[verdict];document.querySelector('#results').append(li);
+ const accepted=window.report.filter(x=>x==='accepted').length;
+ document.querySelector('#summary').textContent='通过 '+accepted+' 条 / 拒绝 '+(window.report.length-accepted)+' 条';
+}
+window.addEventListener('message', event => {
+ if(event.origin!==trustedOrigin){record('origin');return;}
+ if(event.source!==authorized.contentWindow){record('source');return;}
+ const data=event.data;
+ if(!data || typeof data!=='object' || Array.isArray(data)
+    || data.type!=='preview-ready' || typeof data.message!=='string'
+    || data.message.length>80 || Object.keys(data).sort().join(',')!=='message,type'){
+  record('schema');return;
+ }
+ record('accepted');
+});
+for(const button of document.querySelectorAll('button[data-case]'))button.addEventListener('click',()=>{
+ const id=button.dataset.case;
+ const frame=id==='origin'?otherOrigin:id==='source'?otherWindow:authorized;
+ const payload={type:'preview-ready',message:id==='schema'?123:'仅为人工示例文字'};
+ frame.contentWindow.postMessage({command:'send',payload},new URL(frame.src).origin);
+});
+</script></html>

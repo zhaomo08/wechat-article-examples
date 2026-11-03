@@ -1,0 +1,8 @@
+<!doctype html><html lang="zh"><meta charset="utf-8"><style>body{font:14px 'PingFang SC',sans-serif;color:#554760;margin:14px}</style><body><span id="name"></span><script>
+document.querySelector('#name').textContent=new URLSearchParams(location.search).get('name')||'发送窗口';
+const parentOrigin=new URL(document.referrer).origin;
+window.addEventListener('message',event=>{
+ if(event.source!==parent || event.origin!==parentOrigin || event.data?.command!=='send')return;
+ parent.postMessage(event.data.payload,parentOrigin);
+});
+</script></body></html>
