@@ -1,0 +1,10 @@
+recover_status=200
+recover_attempts=3
+recover_retry_wait_seconds=1,1
+recover_min_gap_at_least_0_95s=True
+budget_status=stopped_before_wait
+budget_attempts=1
+unauthorized_status=401
+unauthorized_attempts=1
+network_scope=127.0.0.1_only
+model_calls=0
