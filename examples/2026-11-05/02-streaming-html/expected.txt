@@ -1,0 +1,8 @@
+buffered_first_chunk_after_delay=true
+stream_first_chunk_before_details=true
+stream_first_chunk_has_profile=true
+stream_first_chunk_has_detail=false
+final_html_equal=true
+delay_ms=800
+http_scope=127.0.0.1
+external_requests=0
