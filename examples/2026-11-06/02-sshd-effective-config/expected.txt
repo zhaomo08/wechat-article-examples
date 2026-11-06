@@ -1,0 +1,6 @@
+before developer-demo passwordauthentication=no
+before legacy-demo passwordauthentication=yes
+after developer-demo passwordauthentication=no
+after legacy-demo passwordauthentication=no
+only_synthetic_files=true
+server_started=false
