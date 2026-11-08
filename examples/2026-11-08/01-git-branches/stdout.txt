@@ -1,0 +1,5 @@
+同一分支：alice push=0；bob push=1（被拒绝）
+独立分支：bob 推到 task/bob=0
+先同步再整合：bob rebase + push=0；两份文件都保留
+环境：macOS-27.0.1-arm64-arm-64bit-Mach-O；git version 2.55.0
+范围：本地临时 bare 仓库，顺序模拟过期分支；没有访问 GitHub，没有压测 Rubicon。

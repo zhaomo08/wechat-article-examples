@@ -1,0 +1,5 @@
+请求 A，接收端看到：ArticleDemo/1.0 (contact: demo@example.invalid)
+请求 B，接收端看到：ArticleDemo/1.0
+两次路径均为 /check；邮箱位于请求头，未出现在 URL。
+环境：Python 3.13.7；Darwin
+范围：仅本机 127.0.0.1；邮箱为保留示例域名；未调用 Claude Code，未发送真实个人信息。
