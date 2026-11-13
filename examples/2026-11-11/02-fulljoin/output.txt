@@ -1,0 +1,6 @@
+11.0.100
+SKU  Book     Counted  Status
+A    12       missing  book only
+B    8        6        quantity mismatch
+C    missing  4        counted only
+Duplicate B: 4 matched pairs

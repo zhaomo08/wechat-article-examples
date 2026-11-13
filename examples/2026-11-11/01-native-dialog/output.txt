@@ -1,0 +1,6 @@
+open: focus=cancel
+modal: background clicks=0
+Escape: open=false, focus=open
+closed: background clicks=1
+submit: returnValue=discard
+Chrome 157.0.8103.78

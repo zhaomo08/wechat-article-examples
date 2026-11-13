@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>原生确认弹窗</title>
+<style>
+*{box-sizing:border-box}body{margin:0;color:#1c2926;background:#f5f4ed;font:17px/1.65 system-ui,sans-serif}main{max-width:620px;margin:0 auto;padding:46px 28px}h1{font-size:30px;margin:0 0 14px}button{border:1px solid #728279;border-radius:8px;padding:8px 15px;background:#fff;color:#182520;font:inherit;cursor:pointer}button:focus-visible,button:focus{outline:3px solid #507b66;outline-offset:3px}dialog{width:min(420px,calc(100% - 36px));border:1px solid #748077;border-radius:13px;padding:25px;background:#fffefa;color:#1c2926;box-shadow:0 18px 38px #16271f55}dialog::backdrop{background:#283b3380}h2{margin:0 0 8px}form{display:flex;gap:12px}#status{display:block;margin-top:18px;color:#43524b}.solid{background:#255a44;color:#fff;border-color:#255a44}
+</style>
+<main>
+  <h1>周末出游清单</h1>
+  <p>草稿里还剩三个待办。</p>
+  <button id="open" class="solid">丢弃草稿</button>
+  <button id="background">预览清单</button>
+  <output id="status">后台按钮点击次数：0</output>
+</main>
+<dialog id="discard" aria-labelledby="dialog-title">
+  <h2 id="dialog-title">丢弃这份草稿？</h2>
+  <p>这里用的是临时数据。点击确认只会更新本页提示。</p>
+  <form method="dialog">
+    <button id="cancel" value="cancel" autofocus>取消</button>
+    <button class="solid" value="discard">确认丢弃</button>
+  </form>
+</dialog>
+<script>
+const dialog = document.querySelector("#discard");
+const openButton = document.querySelector("#open");
+const status = document.querySelector("#status");
+let clicks = 0;
+
+openButton.addEventListener("click", () => {
+  dialog.returnValue = "";
+  dialog.showModal();
+});
+document.querySelector("#background").addEventListener("click", () => {
+  status.value = `后台按钮点击次数：${++clicks}`;
+});
+dialog.addEventListener("close", () => {
+  if (dialog.returnValue === "discard") status.value = "草稿已丢弃（演示）";
+});
+</script>
+</html>
