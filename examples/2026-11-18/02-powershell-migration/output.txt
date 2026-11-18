@@ -1,0 +1,26 @@
+=================================================================
+PowerShell 5.1 -> 7 迁移：CI/CD 运维与部署脚本核心隐患排查
+=================================================================
+--- 1. 编码陷阱验证：带 BOM 导致外部解析器抛异常 ---
+PowerShell 5.1 常见输出头部 Hex: fffe7b00 (包含 0xff 0xfe BOM 或宽字符)
+PowerShell 7   标准输出头部 Hex: 7b227365 (标准纯净 UTF-8)
+下游工具直接读取 5.1 产物结果: 解析抛异常: invalid start byte (常见于 CI/CD 下游工具报错)
+下游工具直接读取 7.0 产物结果: 成功解析并启动服务
+
+--- 2. JSON 深度截断惨案验证 (默认 Depth=2 陷阱) ---
+原始 4 层嵌套配置: app -> database -> cluster -> primary/replicas
+PowerShell 5.1 (Depth=2 默认) 解析 cluster.primary:
+  [事故复现] 访问失败: string indices must be integers, not 'str' (因为超限层级已被强制转换为字符串，无法作为对象继续索引！)
+PowerShell 7   (Depth=100 默认) 解析 cluster.primary:
+  类型: dict, 值: 10.0.1.5 (无缝正常访问)
+
+--- 3. 原生命令非零退出码吞异常陷阱 ---
+在 PowerShell 5.1 中:
+  设置 $ErrorActionPreference = 'Stop'
+  执行外部命令: git clone / mvn clean install / docker push
+  即使进程 exit 1，PowerShell 5.1 依然判定外部命令执行完成，不触发 catch，脚本继续部署！
+在 PowerShell 7.4+ 中:
+  启用: $PSNativeCommandUseErrorActionPreference = $true
+  外部命令 exit 非 0 时，立即作为 NativeCommandError 抛出终止异常，阻断危险发布！
+
+=================================================================
