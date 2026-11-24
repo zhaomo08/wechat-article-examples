@@ -1,0 +1,24 @@
+====================================================================
+  Claude Ship (Claude Approvals) 策略守卫模拟器 (Policy-as-Code)
+====================================================================
+
+▶ 正在审核: 【场景 1: AI 提交低风险修复 (文档/单测/类型定义)】
+   PR #1042 - 'fix(types): update payment response interface & add mock tests' (作者: claude-code-bot)
+   变更文件数: 3 | 变更总行数: 86 | CI状态: PASSED
+   [策略引擎决策]: AUTO_APPROVED
+     ✅ 符合低风险免审策略 (受限路径 0 命中，变更规模 86 <= 150，CI 全绿)
+   >>> 结果: [PASS] 触发 Claude Ship 自动 Approve 并进入快速合并通道！
+
+▶ 正在审核: 【场景 2: AI 提交核心鉴权与数据库变更 (语法测试全绿)】
+   PR #1043 - 'perf(auth): optimize token validation cache & add db index' (作者: ai-assistant-worker)
+   变更文件数: 3 | 变更总行数: 157 | CI状态: PASSED
+   [策略引擎决策]: ESCALATE_TO_HUMAN
+     ⚠️ 变更行数 (157 lines) 超出免审阈值 (150 lines)
+     🚨 触碰核心敏感路径 (2 处)，必须由业务负责人人工审计：
+        - 文件: `src/auth/jwt_validator.py` 命中受限规则 `^src/auth/.*`
+        - 文件: `migrations/20261124_add_user_auth_index.sql` 命中受限规则 `^migrations/.*\.sql$`
+   >>> 结果: [BLOCKED] 触发生产安全熔断，强制转为人工 Senior Reviewer 签批！
+
+====================================================================
+结论: AI 时代 PR 审批绝不能裸奔，策略代码化 (Policy-as-Code) 是团队核心生命线。
+====================================================================

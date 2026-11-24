@@ -1,0 +1,27 @@
+====================================================================
+  GitHub Actions Tag 发布流水线供应链安全审查器 (Supply Chain Guard)
+====================================================================
+
+▶ 正在扫描: 【脆弱开源工作流 (无 Tag 保护、无环境隔离、明文 Secrets 注入)】
+   [安全审计状态]: FAIL (检测到严重安全漏洞)
+     🚨 [高危] 工作流由 Tag 推送触发，但仓库未配置 Tag Protection Rules！任何拥有 push 权限的协作者或失陷账号均可绕开 PR 直接触发生产构建。
+     ⚠️ [中危] 仓库未强制 GPG/SSH Tag 签名验证，无法防范篡改作者身份的伪造标签。
+     🚨 [高危] Job `build_and_publish` 直接读取仓库级 Secrets，未配置 `environment` 保护！发生投毒时，所有 16+ 个凭据将被一次性外泄。
+     🚨 [严重] Job `build_and_publish` 注入了高敏感长期凭据 ['DOCKERHUB_TOKEN', 'RELEASE_API_KEY', 'ADMIN_SECRET', 'PROD_DEPLOY_KEY']，缺乏 OIDC 无密认证或环境锁。
+     ⚠️ [警告] 步骤 `Publish Docker` 推送了 `:latest` 镜像标签！下游用户极易因自动拉取 latest 瞬间被投毒沦陷。
+   >>> 风险模拟: 黑客推送 tag `v3.1.11` -> GitHub Actions 自动构建带后门镜像 -> 窃取 16 个 Secrets 并投毒下游用户！
+
+▶ 正在扫描: 【加固型 CI/CD 工作流 (Tag 保护 + 签名验证 + Environment 审批隔离)】
+   [安全审计状态]: PASS (符合供应链安全最佳实践)
+     ✅ 已启用 Tag Protection: 只有组织 Admin 且经过 2FA 才能推送 Release 标签
+     ✅ 已启用 GPG 签名强制核验: 伪造 Tag 会在第一步失败阻断
+     ✅ 已绑定 `production-release` 环境锁: 触发发布必须经 Security Team 人工审批
+     ✅ 使用 OIDC 与不可变 Digest 镜像哈希: 彻底终结 Secrets 泄露与 latest 自动感染
+   >>> 结果: 黑客恶意推 Tag 尝试在 GitHub 协议层直接被拒绝（Remote rejected: Tag protected）！
+
+====================================================================
+防范清单:
+1. Settings -> Tags -> Add Tag Protection Rule: 锁死 `v*`，禁止非管理员直接 push；
+2. 生产 Release 必须配置 Settings -> Environments 并指定 Required Reviewers；
+3. 服务端部署一律锁定镜像 Digest 哈希，严禁生产环境裸跑 `:latest`。
+====================================================================
